@@ -71,11 +71,11 @@ bigrams <- function(ocun.data, morphs=TRUE, sentence.separators=FALSE){
   unigrams <- if(morphs) morphs(ocun.data, sentence.separators=TRUE) else words(ocun.data, sentence.separators=TRUE)
   bigrams <- data.frame(unigrams[-length(unigrams)],
                         unigrams[-1])
-  colnames(bigrams) <- c("i","j")
+  colnames(bigrams) <- c("i__","j__")
   #if sentence.separators is TRUE, remove all rows with separator symbol
   if(!sentence.separators){
     bigrams <- bigrams %>%
-      dplyr::filter(i!='##',j!='##')
+      dplyr::filter(i__!='##',j__!='##')
   }
   bigrams
 }
