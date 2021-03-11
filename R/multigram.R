@@ -69,8 +69,9 @@ words <- function(ocun.data, sentence.separators=FALSE){
 #' @export
 bigrams <- function(ocun.data, morphs=TRUE, sentence.separators=FALSE){
   unigrams <- if(morphs) morphs(ocun.data, sentence.separators=TRUE) else words(ocun.data, sentence.separators=TRUE)
-  bigrams <- data.frame(i = unigrams[-length(unigrams)],
-                        j = unigrams[-1])
+  bigrams <- data.frame(unigrams[-length(unigrams)],
+                        unigrams[-1])
+  colnames(bigrams) <- c("i","j")
   #if sentence.separators is TRUE, remove all rows with separator symbol
   if(!sentence.separators){
     bigrams <- bigrams %>%
