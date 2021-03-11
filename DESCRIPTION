@@ -7,9 +7,14 @@ Authors@R:
            role = c("aut", "cre"),
            email = "jpcyrino@gmail.com",
            comment = c(ORCID = "https://orcid.org/0000-0002-3462-7114"))
-Description: The package intends to comprise functions for: Transforming linguistic data lists (txt format) into standard *Ocun* table format; Creating word and morph lists; Unigram, bigram analyses; Distributional analysis for determining PoS or morph classification; Supervised and unsupervised parsers.
+Description: The package comprises functions for: Transforming linguistic data lists (txt format) into standard *Ocun* table format; Creating word and morph lists; Unigram, bigram analyses; Distributional analysis for determining PoS or morph classification; Supervised and unsupervised parsers.
 License: `use_gpl3_license()`
 Encoding: UTF-8
+Imports:
+    readr,
+    dplyr,
+    stringr,
+    magrittr
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
