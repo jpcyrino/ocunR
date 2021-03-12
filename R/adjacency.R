@@ -1,8 +1,13 @@
 #' Ajacency Matrix
 #'
+#' Creates an adjacency matrix from a bigram dataframe
+#' (see \code{\link{bigrams}}). The matrix's rows are the nodes and the columns
+#' are the neighbors.
+#'
 #' @param bigrams Bigram dataframe form ocunR::bigrams()
 #' @param binary TRUE if binary, FALSE if frequency of bigram
 #' @param left TRUE if left direction, FALSE if right direction
+#' @return A matrix with the names of each morph/word as row/column names.
 #' @export
 adjacency_matrix <- function(bigrams, binary=TRUE, left=FALSE){
   colnames(bigrams) <- c("i__","j__")
@@ -17,26 +22,14 @@ adjacency_matrix <- function(bigrams, binary=TRUE, left=FALSE){
   }
 
   if(left){
-    return(bigrams.list %>%
-      tidyr::pivot_wider(names_from=i__, values_from=n, values_fill=0))
+    pivot <- bigrams.list %>%
+      tidyr::pivot_wider(names_from=i__, values_from=n, values_fill=0)
   } else {
-    return(bigrams.list %>%
-      tidyr::pivot_wider(names_from=j__, values_from=n, values_fill=0))
+    pivot <- bigrams.list %>%
+      tidyr::pivot_wider(names_from=j__, values_from=n, values_fill=0)
   }
-}
 
-
-#' Normalized Information Distance Matrix
-#'
-#' Note, this is really slow.
-NID_matrix <- function(bigrams, left=FALSE){
-  ad.mat <- adjacency_matrix(bigrams, binary=TRUE, left=left)
-  mat <- as.matrix(ad.mat[,-1])
-  nidm <- mat
-  for(i in c(1:ncol(mat))){
-    nidm[,i] <- apply(mat,1,aricode::NID,c2=mat[,i])
-    print(paste("Column ", i))
-  }
-  rownames(nidm) <- ad.mat[,1]
-  nidm
+  adj.matrix <- as.matrix(pivot[,-1])
+  rownames(adj.matrix) <- pivot$i__
+  return(adj.matrix)
 }
