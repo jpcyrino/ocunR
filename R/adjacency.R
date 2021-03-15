@@ -33,3 +33,5 @@ adjacency_matrix <- function(bigrams, binary=TRUE, left=FALSE){
   rownames(adj.matrix) <- pivot$i__
   return(adj.matrix)
 }
+
+

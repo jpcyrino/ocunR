@@ -40,7 +40,7 @@ parse <- function(lexicon, str){
   # Backtrack and fill output
   out <- c()
   i <- nchar(str)
-  while(i>1){
+  while(i>0){
     bm <- best.match(i)
     # Assert cost of best match is the same cost of the cost vector
     if(bm[1]!=cost[i+1]) stop("Mismatch error!")
