@@ -1,12 +1,12 @@
-# parse
-#
-# lexicon must be a vector of costs with names as names of word/morph
-#
-#
-# NOTE: this is a R implementation of the algorithm suggested by Generic Human
-# at StackExchange for Python. Kudos to him!
-# See: https://stackoverflow.com/questions/8870261/how-to-split-text-without-spaces-into-list-of-words/11642687#11642687
-
+#' Parse
+#'
+#' Parse the lexical items in a string without spaces using a lexicon. NOTE:
+#' this is a R implementation of the algorithm suggested by Generic Human
+#' at StackExchange for Python. Kudos to him! See: \url{https://stackoverflow.com/questions/8870261/how-to-split-text-without-spaces-into-list-of-words/11642687#11642687}
+#'
+#' @param lexicon The lexicon, see \link{lexicon}
+#' @param str The string to be parsed
+#' @export
 parse <- function(lexicon, str){
   # Assert lexicon is a vector with named elements
   if(is.null(names(lexicon))) stop('Lexicon must be a vector with named elements')
