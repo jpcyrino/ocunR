@@ -38,16 +38,19 @@ parse <- function(lexicon, str){
   }
 
   # Backtrack and fill output
-  out <- c()
+  tokens <- c()
+  plogs <- c()
   i <- nchar(str)
   while(i>0){
     bm <- best.match(i)
     # Assert cost of best match is the same cost of the cost vector
     if(bm[1]!=cost[i+1]) stop("Mismatch error!")
-    out <- c(out, substr(str,i-bm[2]+1,i))
+    tokens <- c(tokens, substr(str,i-bm[2]+1,i))
+    plogs <- c(plogs, bm[1])
     i <- i-bm[2]
   }
 
-  ## work on this
-  print(rev(out))
+  tokens <- rev(tokens)
+  plogs <- rev(plogs)
+  data.frame(tokens, plogs)
 }
