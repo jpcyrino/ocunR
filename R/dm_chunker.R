@@ -1,5 +1,9 @@
-
-dm_chunker <- function(text, zipfian=FALSE,rate=25,sep="[.,;?!\n]"){
+#' De Marcken style chunker
+#'
+#' Splits a string into substrings based on MDL
+#'
+#'@export
+dm_chunker <- function(text, zipfian=FALSE,rate=25,sep="[.,;?!\n]",iter=10){
 
   # Prepare text: everything to lowercase, split in fullstops, commas, semicolumns.
   text <- gsub("[ ]", '', text)
@@ -38,6 +42,7 @@ dm_chunker <- function(text, zipfian=FALSE,rate=25,sep="[.,;?!\n]"){
   pstep <- function(g) {
     # join each pair of tokens in the text
     bigrams <- lexicon(paste(g$parse[-length(g$parse)],g$parse[-1],sep=""),zipf=FALSE)
+    print(bigrams[1:5])
     newtokens <- bigrams[1:rate]
 
     #n.newtokens <- ceiling(rate * length(bigrams))
@@ -80,13 +85,21 @@ dm_chunker <- function(text, zipfian=FALSE,rate=25,sep="[.,;?!\n]"){
   # 10 attempts
 
   gra <- grammar
-  attempt <- vector("list",10)
-  for(i in c(1:10)){
+  #attempt <- vector("list",10)
+  dl <- c(gra$dl)
+  u <- c(gra$u)
+  len <- c(sum(gra$alphabet))
+  for(i in c(1:iter)){
     dln <- gra$dl
+    lexiconM <- c(gra$multigrams.cost, gra$alphabet.cost)
     gra <- pstep(gra)
-    attempt[[i]] <- gra
+    #attempt[[i]] <- gra
+    dl <- c(dl, gra$dl)
+    u <- c(u, gra$u)
+    len <- c(len, gra$length)
     cat(paste("\r Iteration ", i, "DLdiff: ", gra$dl-dln))
-    if(gra$dl-dln >= 0) break()
+    #if(gra$dl-dln >= 0) break()
   }
-  attempt
+  #attempt
+  list(lexicon0 = grammar$alphabet.cost, lexiconM=lexiconM, lexiconF=c(gra$multigrams.cost, gra$alphabet.cost), dl=dl, u=u, len=len, rate=dl[length(dl)]/dl[1], parse=gra$parse)
 }

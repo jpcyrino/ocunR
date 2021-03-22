@@ -3,6 +3,7 @@
 export("%>%")
 export(adjacency_matrix)
 export(bigrams)
+export(dm_chunker)
 export(ksm)
 export(lexicon)
 export(morphs)
